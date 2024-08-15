@@ -1,5 +1,7 @@
 
 import React, { useEffect, useState } from "react";
+
+
 import "./weather.css";
 
 export function Home() {
@@ -11,8 +13,7 @@ export function Home() {
         image: ""
     });
     const [name, setName] = useState("kadapa");
-   
-    
+    const [error, setError] = useState("");
 
     // Function to fetch weather data based on city name
     const fetchWeatherData = (city) => {
@@ -20,10 +21,15 @@ export function Home() {
         const apiUrl = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}`;
 
         fetch(apiUrl)
-            .then(response => response.json()) // Parse the response as JSON
+            .then(response => {
+                if (!response.ok) { // Check if response is not OK (e.g., 404)
+                    throw new Error('Invalid city name');
+                }
+                return response.json(); // Parse the response as JSON
+            })
             .then(data => {
                 console.log(data);
-                let imagePath = "";
+                let imagePath = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVvHSmKM8-hREnbc9qLFcgCNTiF5nDWVNGmA&s";
 
                 // Use condition text to decide image URL
                 const condition = data.current.condition.text.toLowerCase();
@@ -50,8 +56,11 @@ export function Home() {
                     speed: data.current.wind_kph, // Wind speed in kilometers per hour
                     image: imagePath // Set the image URL
                 });
+
+                setError(""); // Clear error message on successful fetch
             })
             .catch(error => {
+                setError(error.message); // Set error message
                 console.error('Error:', error); // Handle any errors
             });
     };
@@ -76,17 +85,16 @@ export function Home() {
                         value={name}
                         onChange={e => setName(e.target.value)} // Update city name state
                     />
-                    <button className="bi bi-search" onClick={handleSearch}></button>
+                   <button className="bi bi-search" onClick={handleSearch}></button>
+    
+    
+
                 </div>
-                <div className="error">
-                    <p></p>
-                </div>
+                {error && <div className="error"><p>{error}</p></div>}
                 <div className="winfo">
                     <img src={data.image} alt="Weather" style={{ width: "100px", height: "50px" }} />
-
                     <h2 className="mt-3">{Math.round(data.celcius)}°C</h2>
                     <h3 className="mt-0"></h3>
-
                     <div className="details">
                         <div className="col">
                             <img
@@ -99,7 +107,6 @@ export function Home() {
                                 <p>Humidity</p>
                             </div>
                         </div>
-
                         <div className="col">
                             <img
                                 src="/images/wind.jpeg"
@@ -108,7 +115,7 @@ export function Home() {
                             />
                             <div className="wind">
                                 <p>{Math.round(data.speed)} km/h</p>
-                                <p style={{}}>Wind</p>
+                                <p>Wind</p>
                             </div>
                         </div>
                     </div>
