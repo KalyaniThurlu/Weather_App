@@ -1,18 +1,17 @@
 
-import React, { useEffect, useState } from "react";
-
+import React, {  useState } from "react";
 
 import "./weather.css";
 
 export function Home() {
     const [data, setData] = useState({
-        celcius: 10,
-        name: "kadapa",
-        humidity: 10,
-        speed: 2,
+        celcius: 0,
+        name: "",
+        humidity: 0,
+        speed: 0,
         image: ""
     });
-    const [name, setName] = useState("kadapa");
+   
     const [error, setError] = useState("");
 
     // Function to fetch weather data based on city name
@@ -65,15 +64,19 @@ export function Home() {
             });
     };
 
-    useEffect(() => {
-        fetchWeatherData(name); // Fetch data when the component mounts or city name changes
-    }, [name]); // Dependency array includes cityName to trigger the effect on change
-
     const handleSearch = () => {
-        if (name.trim() !== "") { // Ensure the name is not empty or just whitespace
-            fetchWeatherData(name);
+        if (data.name.trim() !== "") { // Ensure the name is not empty or just whitespace
+            fetchWeatherData(data.name);
         }
     };
+    const clearSearch=()=>{
+        
+        setData( (prev)=>({...prev, celcius: 0,
+            name: "",
+            humidity: 0,
+            speed: 0,
+            image: ""}))
+    }
 
     return (
         <div className="container">
@@ -82,21 +85,28 @@ export function Home() {
                     <input 
                         type="text" 
                         placeholder="Enter city Name" 
-                        value={name}
-                        onChange={e => setName(e.target.value)} // Update city name state
+                        value={data.name}
+                        onChange={e => setData( (prev)=>({...prev,name:e.target.value}))} // Update city name state
                     />
-                   <button className="bi bi-search" onClick={handleSearch}></button>
+                   <button className=" btn btn-primary " onClick={handleSearch}> 
+                   
+                   <i className="bi bi-search"></i>
+                   </button>
+                   <button className=" btn btn-secondary" onClick={clearSearch}><i className="bi bi-x"></i></button>
     
     
 
                 </div>
                 {error && <div className="error"><p>{error}</p></div>}
-                <div className="winfo">
-                    <img src={data.image} alt="Weather" style={{ width: "100px", height: "50px" }} />
+                <div className="winfo  custom-margin">
+                    <img src={data.image} alt="Weather" style={{ width: "100px", height: "50px" }}  />
                     <h2 className="mt-3">{Math.round(data.celcius)}°C</h2>
-                    <h3 className="mt-0"></h3>
+                   
+                   
                     <div className="details">
-                        <div className="col">
+                     
+                    <div className="col mt-4">
+                            
                             <img
                                 src="https://i.pinimg.com/564x/e6/71/72/e67172f0e1e266098ae55b7f057c0761.jpg"
                                 alt="Humidity"

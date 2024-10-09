@@ -51,17 +51,16 @@ body {
     justify-content: center;
 }
 
-.search button i {
-    font-size: 10px; /* Icon size */
-}
-*/
-
 
 
 .winfo-icon {
     margin-top: 20px;
     width: 170px;
 }
+.custom-margin {
+    margin-top: 40px; /* or any value you prefer */
+}
+
 
 .winfo h2 {
     font-size: 40px;
@@ -79,11 +78,12 @@ body {
 
 
 .details {
-    display: flex; /* Enables flexbox layout, allowing for flexible item alignment */
-    justify-content: space-between; /* Distributes space evenly between items, with the first item at the start and the last item at the end */
-    align-items: center; /* Centers items vertically along the cross axis (usually vertically) */
-    padding: 0px 20px; /* Adds 20px padding to the left and right sides, and 0px padding to the top and bottom */
-    margin-top: 50px; /* Adds 50px of space above the element */
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 0px 20px; 
+    margin-top: 50px; 
+    
 }
 .humdity, .wind {
     font-size: 27px;
