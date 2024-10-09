@@ -93,9 +93,6 @@ export function Home() {
                    <i className="bi bi-search"></i>
                    </button>
                    <button className=" btn btn-secondary" onClick={clearSearch}><i className="bi bi-x"></i></button>
-    
-    
-
                 </div>
                 {error && <div className="error"><p>{error}</p></div>}
                 <div className="winfo  custom-margin">
